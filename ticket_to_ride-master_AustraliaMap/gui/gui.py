@@ -18,12 +18,12 @@ class GUI:
 
         print('initializing gui')
 
-        img = mpimg.imread('gui/New_York_Map-2.jpg')
+        img = mpimg.imread('gui/Australia_Map-1.png')
         plt.ion()  # uncomment to let go of string
         self.fig = plt.figure(figsize=(x_size, y_size))  # uncomment to let go of string
         imgplot = plt.imshow(img)
-        plt.xlim([0, 1450])
-        plt.ylim([2000, 0])
+        plt.xlim([0, 1000])
+        plt.ylim([710, 0])
         imgplot.axes.get_xaxis().set_visible(False)
         imgplot.axes.get_yaxis().set_visible(False)
         self.needs_reset = False
@@ -193,22 +193,37 @@ class GUI:
 
     def place_cities(self):
         self.cities = {
-            "Brooklyn": [1240, 1865],
-"Central Park": [688, 82],
-"Chelsea": [370, 860],
-"Chinatown": [850, 1550],
-"East Village": [1117, 1157],
-"Empire State Building": [674, 642],
-"Gramercy Park": [820, 833],
-"Greenwich Village": [756, 1184],
-"Lincoln Center": [318, 100],
-"Lower East Side": [1076, 1402],
-"Midtown West": [270, 482],
-"Soho": [535, 1498],
-"Times Square": [522, 421],
-"United Nations": [1000, 400],
-"Wall Street": [740, 1817]
+            "Darwin": [430, 75],
+"Perth": [193, 469],
+"Canberra": [731, 530],
+"Melbourne": [660, 568],
+"Hobart": [691, 675],
+"Brisbane": [811, 382],
+"Sydney": [765, 506],
+"Adelaide": [561, 506],
+"Broken Hill": [611, 447],
+"Alice Springs": [485, 291],
+"Katherine": [456, 120],
+"Kalgoorlie": [276, 439],
+"Cairns": [702, 171],
+"Albany": [231, 523],
+"Exmouth": [136, 281],
+"Halls Creek": [376, 190],
+"Longreach": [666, 293],
+"Wiluna": [252, 356],
+"Warburton": [362, 341],
+"Cape York": [650, 53],
+"Emerald": [735, 297],
+"Coober Pedy": [500, 395],
+"Geraldton": [163, 412],
+"Cloncurry": [602, 236],
+"Tennant Creek": [490, 215],
+"Eucla": [404, 445],
+"Lake Disappointment": [304, 295],
+"Thargomindah": [639, 386],
+"Broome": [275, 190]
                        }
+        print(self.cities)
 
     def set_colors(self):
         self.colors = ['#b61c16', '#1033bc', '#d8c413', '#13750a', '#6c0a75', '#030203',
