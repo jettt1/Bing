@@ -132,6 +132,8 @@ Edge("Eucla","Coober Pedy", cost=3, color=Colors.blue),
 
 Edge("Thargomindah","Broken Hill", cost=2, color=Colors.blue),
 Edge("Thargomindah","Longreach", cost=3, color=Colors.pink),
+
+Edge("Broome","Lake Disappointment", cost=4, color=Colors.red),
     ]
 
     return create_city_edges(edges), edges
