@@ -12,6 +12,7 @@ from game import Game
 from game.classes import FailureCause, Colors
 from human_player.console_player import ConsolePlayer
 
+
 # you can chose the player you want by change this two line with other constructor
 ##p1 = CFActionEvalAI("CFAE")
 #p2 = CFCombinedAI("CF Combined")
