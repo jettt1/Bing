@@ -1,5 +1,8 @@
-from game import Player, Colors, DrawDeckAction, DrawFaceUpAction, DrawDestinationAction, Game, Hand, FailureCause
+import tkinter as tk
+from human_player.TicketToRideGUI import AppGUI
+import copy
 
+from game import Player, Colors, DrawDeckAction, DrawFaceUpAction, DrawDestinationAction, Game, Hand, FailureCause
 
 class ConsolePlayer(Player):
     """
@@ -10,12 +13,30 @@ class ConsolePlayer(Player):
         Player.__init__(self, name)
         self._drew_card_from_deck = False
         self.player_info = None
-        #self.gui = gui
+        self.gui = None
+        print("self.gui is set to NONE")
+        print(self.gui)
+
+    def __deepcopy__(self, memo):
+        # Create a shallow copy of the object
+        new_copy = copy.copy(self)
+        # Manually deepcopy all attributes except those related to tkinter GUI
+        for attr, value in self.__dict__.items():
+            if attr == 'gui':
+                setattr(new_copy, attr, value)
+            else:
+                setattr(new_copy, attr, copy.deepcopy(value, memo))
+        return new_copy
+
+
+    def set_gui(self, gui):
+        self.gui = gui
+        print(f"SET_GUI: GUI set in ConsolePlayer: {self.gui}")  # Debug print to confirm GUI is set
+        print(id(self.gui))
+        print(self.gui)
+
 
     def take_turn(self, game):
-        
-        
-
         self._drew_card_from_deck = False
         action = None
         all_actions = game.get_available_actions(self)
@@ -39,7 +60,7 @@ class ConsolePlayer(Player):
                 print ("1: Draw Tickets")
                 print ("2: Connect Cities")
 
-                action_type = ConsolePlayer.get_selection()
+                action_type = choice = self.get_choice(["0", "1", "2"])
             else:
                 # If there is only one action left, just force the player to draw.
                 action_type = 0
@@ -113,7 +134,7 @@ class ConsolePlayer(Player):
 
                     if 0 <= selection < len(possible_actions):
                         action = possible_actions[selection]
-            
+
         print ("")
         return action
 
@@ -129,7 +150,6 @@ class ConsolePlayer(Player):
             # If the player just drew a card from the deck, then figure out what the new card is and output the result.
             if game.gui:
                 game.gui.update(game)
-
 
             old_cards = self.player_info.hand.cards
             new_cards = game.get_player_info(self).hand.cards
@@ -152,7 +172,7 @@ class ConsolePlayer(Player):
             for i in range(len(destinations)):
                 print ("%d: %s" % (i + 1, str(destinations[i])))
 
-            selection = ConsolePlayer.get_selection()
+            selection = ConsolePlayer.take_turn(self, game).selected_index
 
             if selection != 0:
                 del destinations[selection - 1]
@@ -165,25 +185,44 @@ class ConsolePlayer(Player):
         return destinations
 
     def select_starting_destinations(self, game, destinations):
-        # Choice will indicate which destination the player chose to remove.
         selection = -1
+        tempL = []
+
+        #self.gui.greeting_screen(self._dummy_callback)
 
         while not (0 <= selection <= len(destinations)):
-            print ("Choose a ticket to discard:")
-            print ("0: Keep all tickets")
+            print("Choose a ticket to discard:")
+            print("0: Keep all tickets")
             for i in range(len(destinations)):
-                print ("%d: %s" % (i + 1, str(destinations[i])))
+                temp = [i + 1, str(destinations[i])]
+                tempL.append(temp)
+                print("%d: %s" % (i + 1, str(destinations[i])))
 
-            selection = ConsolePlayer.get_selection()
+            choice = self.get_choice(["Keep all tickets", tempL[0], tempL[1], tempL[2]])
+
+            # Call starting_destination_screen and pass the list of starting tickets
+            selection = choice
 
         if selection != 0:
             del destinations[selection - 1]
 
-        print ("")
-
         return destinations
 
-    @staticmethod
+    def _dummy_callback(self):
+        # Dummy callback function for GUI actions
+        print("dummy called")
+        pass
+
+    def get_choice(self, options):
+        self.choice = None
+        self.gui.selection_screen(options, self.set_choice)
+        while self.choice is None:
+            self.gui.root.update()  # Wait for user to make a selection
+        return int(self.choice)
+
+    def set_choice(self, choice):
+        self.choice = choice
+
     def get_selection():
         """
         Get a user's selection for the next move.

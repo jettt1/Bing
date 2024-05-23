@@ -16,6 +16,7 @@ def init_decks():
 
 def shuffle_destinations():
     destinations = [
+<<<<<<< Updated upstream
 Destination("Cloncurry","Darwin",7),
 Destination("Longreach","Perth",18),
 Destination("Warburton","Canberra",13),
@@ -23,6 +24,15 @@ Destination("Tennant Creek","Melbourne",12),
 Destination("Broome","Hobart",25),
 Destination("Hobart","Brisbane",10),
 Destination("Albany","Sydney",17),
+=======
+        Destination("Cloncurry","Darwin",7),
+        Destination("Longreach","Perth",18),
+        Destination("Warburton","Canberra",13),
+        Destination("Tennant Creek","Melbourne",12),
+        Destination("Broome","Hobart",25),
+        Destination("Hobart","Brisbane",10),
+        Destination("Albany","Sydney",17),
+>>>>>>> Stashed changes
         Destination("Cape York","Adelaide",15),
         Destination("Lake Disappointment","Broken Hill",15),
         Destination("Kalgoorlie","Alice Springs",8),

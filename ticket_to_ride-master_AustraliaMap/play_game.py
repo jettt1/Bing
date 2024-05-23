@@ -11,32 +11,69 @@ from drivers.log_driver import LogDriver
 from game import Game
 from game.classes import FailureCause, Colors
 from human_player.console_player import ConsolePlayer
+from human_player.TicketToRideGUI import AppGUI
 
+<<<<<<< Updated upstream
 
 # you can chose the player you want by change this two line with other constructor
 ##p1 = CFActionEvalAI("CFAE")
 #p2 = CFCombinedAI("CF Combined")
+=======
+# GUI imports
+import tkinter as tk
+from tkinter import ttk
+from threading import Thread, Event  # Import Event for synchronization
+
+# You can choose the player you want by changing these lines with other constructors
+## p1 = CFActionEvalAI("CFAE")
+# p2 = CFCombinedAI("CF Combined")
+>>>>>>> Stashed changes
 p1 = CFBaseAI("CF Base AI")
-# For example 
-##p2 = CFBaseAI("CF Base AI")
-#p2 = RandomAI("R2")
+# For example
+## p2 = CFBaseAI("CF Base AI")
+# p2 = RandomAI("R2")
 # p2 = AdversarialAI("Adversarial AI")
 # p2 = RandomAI("random AI")
 
-## you can use Console Player to play with AI, be sure to enable GUI
+## You can use Console Player to play with AI, be sure to enable GUI
 p2 = ConsolePlayer("Human")
-##p3 = RandomAI("R3")
-##p4 = AdversarialAI("Adversarial AI")
-##p5 = RandomAI("R2")
-##p6 = RandomAI("R1")
+## p3 = RandomAI("R3")
+## p4 = AdversarialAI("Adversarial AI")
+## p5 = RandomAI("R2")
+## p6 = RandomAI("R1")
 
 players = [p1, p2]
 use_gui = True
 iterations = 1
 
-# To have multiple tests run at once, create multiple log drivers with different combinations of players, then run each
-# one.
-driver = LogDriver(use_gui = use_gui, players=players, print_debug=False, iterations=iterations, switch_order=True,
-                   replay_deck=True, replay_destinations=True)
-driver.run_game()
-input()
+def run_gui(player, gui_ready_event, greeting_done_event):
+    root = tk.Tk()
+    app_gui = AppGUI(root)
+    player.set_gui(app_gui)
+    print(f"GUI is set for player: {player.gui}")  # Debug print to confirm GUI is set
+    gui_ready_event.set()  # Signal that the GUI is ready
+
+    app_gui.greeting_screen(lambda: greeting_done_event.set())
+
+    root.mainloop()
+
+def main():
+    if use_gui:
+        gui_ready_event = Event()
+        greeting_done_event = Event()
+        # Start the GUI in a separate thread
+        gui_thread = Thread(target=run_gui, args=(p2, gui_ready_event, greeting_done_event))
+        gui_thread.start()
+
+        # Wait for the GUI to be ready
+        gui_ready_event.wait()
+
+        greeting_done_event.wait()
+
+    # Continue running the other code in the main thread
+    driver = LogDriver(use_gui=use_gui, players=players, print_debug=False, iterations=iterations, switch_order=True,
+                       replay_deck=True, replay_destinations=True)
+    driver.run_game()
+
+if __name__ == "__main__":
+    main()
