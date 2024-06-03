@@ -1,0 +1,22 @@
+{
+    "destinations": [
+        {"city1": "Lower East Side", "city2": "Wall Street", "points": 2},
+        {"city1": "Midtown West", "city2": "Central Park", "points": 3},
+        {"city1": "Empire State Building", "city2": "Greenwich Village", "points": 3},
+        {"city1": "Midtown West", "city2": "United Nations", "points": 3},
+        {"city1": "Lincoln Center", "city2": "Empire State Building", "points": 3},
+        {"city1": "Gramercy Park", "city2": "Chinatown", "points": 4},
+        {"city1": "Soho", "city2": "East Village", "points": 4},
+        {"city1": "Central Park", "city2": "Gramercy Park", "points": 4},
+        {"city1": "Times Square", "city2": "East Village", "points": 4},
+        {"city1": "Chelsea", "city2": "Central Park", "points": 5},
+        {"city1": "Chelsea", "city2": "Wall Street", "points": 6},
+        {"city1": "Times Square", "city2": "Soho", "points": 6},
+        {"city1": "Lincoln Center", "city2": "Greenwich Village", "points": 6},
+        {"city1": "Empire State Building", "city2": "Brooklyn", "points": 7},
+        {"city1": "United Nations", "city2": "Wall Street", "points": 8},
+        {"city1": "Central Park", "city2": "Chinatown", "points": 8},
+        {"city1": "Times Square", "city2": "Brooklyn", "points": 8},
+        {"city1": "Chelsea", "city2": "Brooklyn", "points": 8}
+    ]
+}

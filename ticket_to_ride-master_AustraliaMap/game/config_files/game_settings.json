@@ -1,0 +1,11 @@
+{
+  "maximum_rounds": 1000,
+  "starting_hand_size": 5,
+  "print_debug": false,
+  "num_cars": 15,
+  "custom_settings": false,
+  "city_edges": null,
+  "edges": null,
+  "deck": null,
+  "destinations": null
+}

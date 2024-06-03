@@ -1,32 +1,51 @@
 from game.classes import *
 from game.player import *
+import json
+from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 from game.board import create_board
 
-
-# cities = dict()
-# cities = dict()
-# x = []
-# y = []
-
-
-
+class MapLoader:
+    def __init__(self, config_file):
+        self.config = self.load_config(config_file)
+        
+    def load_config(self, config_file):
+        with open(config_file, 'r') as f:
+            return json.load(f)
+    
+    def load_map(self, map_name):
+        map_info = self.config['maps'].get(map_name)
+        if not map_info:
+            raise ValueError(f"Map '{map_name}' not found in config.")
+        img = mpimg.imread(map_info['path'])
+        return img, map_info
 class GUI:
-    def __init__(self, x_size=6, y_size=10):
+
+    #Paste this in Path for New York map: 'game\config_files\NewYork\NY_placeCities.json'
+
+    def __init__(self, config_path=Path(r'game\config_files\Australia\placeCities.json'), x_size=6, y_size=10):
 
         print('initializing gui')
-
-        img = mpimg.imread('gui/Australia_Map-1.png')
-        plt.ion()  # uncomment to let go of string
-        self.fig = plt.figure(figsize=(x_size, y_size))  # uncomment to let go of string
-        imgplot = plt.imshow(img)
-        plt.xlim([0, 1000])
-        plt.ylim([710, 0])
-        imgplot.axes.get_xaxis().set_visible(False)
-        imgplot.axes.get_yaxis().set_visible(False)
         self.needs_reset = False
+
+        self.config_path = config_path
+        config_file = 'game/config_files/maps_config.json'
+        self.map_loader = MapLoader(config_file)
+        
+        # Load map information from the configuration file. Change the string in the below load_map() function from 
+        #"Australia" to "NewYork" to change to the New York map
+        img, map_info = self.map_loader.load_map("Australia")
+        if img is None or map_info is None:
+            raise ValueError("Failed to load map. Make sure the file path for the image is correct and the string in the load_map() function is correct")
+        
+        plt.ion()
+        self.fig = plt.figure(figsize=(map_info['x_size'], map_info['y_size']))
+        plt.imshow(img)
+        plt.xlim(map_info['xlim'])
+        plt.ylim(map_info['ylim'])
+        plt.show()
 
         # imgplot = plt.imdraw(img)
         self.place_cities()
@@ -192,37 +211,9 @@ class GUI:
         plt.draw()
 
     def place_cities(self):
-        self.cities = {
-            "Darwin": [430, 75],
-"Perth": [193, 469],
-"Canberra": [731, 530],
-"Melbourne": [660, 568],
-"Hobart": [691, 675],
-"Brisbane": [811, 382],
-"Sydney": [765, 506],
-"Adelaide": [561, 506],
-"Broken Hill": [611, 447],
-"Alice Springs": [485, 291],
-"Katherine": [456, 120],
-"Kalgoorlie": [276, 439],
-"Cairns": [702, 171],
-"Albany": [231, 523],
-"Exmouth": [136, 281],
-"Halls Creek": [376, 190],
-"Longreach": [666, 293],
-"Wiluna": [252, 356],
-"Warburton": [362, 341],
-"Cape York": [650, 53],
-"Emerald": [735, 297],
-"Coober Pedy": [500, 395],
-"Geraldton": [163, 412],
-"Cloncurry": [602, 236],
-"Tennant Creek": [490, 215],
-"Eucla": [404, 445],
-"Lake Disappointment": [304, 295],
-"Thargomindah": [639, 386],
-"Broome": [275, 190]
-                       }
+        with open(self.config_path, 'r') as f:
+                self.cities = json.load(f)
+                       
         print(self.cities)
 
     def set_colors(self):

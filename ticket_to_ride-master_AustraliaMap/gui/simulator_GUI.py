@@ -180,10 +180,13 @@ class TicketApp:
             selected_cards = [option for var, option in self.checkbox_var if var.get() == 1]
             if len(selected_cards) > 2:
                 messagebox.showwarning("Selection Limit Exceeded", "You can only select up to 2 cards.")
+                popup.destroy()
             elif len(selected_cards) == 0:
                 messagebox.showwarning("No Selection", "Please select at least one card.")
+                popup.destroy()
             else:
                 messagebox.showinfo("Confirmed Selection", f"Selected Cards: {', '.join(selected_cards)}")
+                popup.destroy()
         tk.Button(popup, text="Confirm", command=confirm_selection).pack(pady=10, fill=tk.X)
 
         # "Cancel" button

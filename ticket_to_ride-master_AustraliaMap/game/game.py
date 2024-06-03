@@ -1,4 +1,7 @@
 import operator
+import json
+import os
+from pathlib import Path
 from collections import Counter
 from copy import deepcopy
 from random import shuffle
@@ -9,40 +12,45 @@ from .cards import init_decks, shuffle_deck, shuffle_destinations
 from .classes import PlayerInfo, FailureCause, HistoryEvent, Hand
 from .methods import connected
 
-
-# from gui import GUI
-
 class Game:
-    STARTING_HAND_SIZE = 4
-    DEFAULT_NUM_CARS = 15
+    DEFAULT_NUM_CARS = 15  # Default value in case it's not found in config
+    STARTING_HAND_SIZE = 5  # Assuming this is a constant you need
 
-    def __init__(self, players, maximum_rounds=5000, print_debug=False, custom_settings=False, city_edges=None, \
-                 edges=None,
-                 deck=None,
-                 destinations=None, num_cars=15):
-        if not custom_settings:
-            self._city_edges, self._edges = create_board()
-            self._deck, self._destinations = init_decks()
-            self._num_cars = self.DEFAULT_NUM_CARS
-        else:
-            self._city_edges = city_edges
-            self._edges = edges
-            self._deck = deck
-            self._destinations = destinations
+    def __init__(self, players, config_path=Path(r'game\config_files\game_settings.json'), maximum_rounds=1000, print_debug=False, custom_settings=False, city_edges=None, edges=None, deck=None, destinations=None, num_cars=15):
 
-            self._num_cars = num_cars
+            # Read configuration from the file
+        config_path = Path(config_path)  # Ensure config_path is a Path object
+        with config_path.open('r') as config_file:
+            config = json.load(config_file)
+
+            # Extract variables from the configuration
+        self._city_edges = config.get('city_edges', None)
+        self._edges = config.get('edges', None)
+        self._deck = config.get('deck', None)
+        self._destinations = config.get('destinations', None)
+        self._num_cars = config.get('num_cars', self.DEFAULT_NUM_CARS)
+        self._maximum_rounds = config.get('maximum_rounds', maximum_rounds)
+        self._starting_hand_size = config.get('starting_hand_size', self.STARTING_HAND_SIZE)
+
+            # Debug print to verify values loaded from config
+        if print_debug:
+                print(f"Loaded configuration: num_cars={self._num_cars}, maximum_rounds={self._maximum_rounds}")
 
         self.print_debug = print_debug
-        self._maximum_rounds = maximum_rounds
         self._rounds_count = 0
         self.gui = None
         self._scoring = get_scoring()
         self._double_edges = dict()
         self._players = players
 
+        # If any critical component is missing, initialize defaults
+        if not self._city_edges or not self._edges:
+            self._city_edges, self._edges = create_board()
+        if not self._deck or not self._destinations:
+            self._deck, self._destinations = init_decks()
+
         # Select 5 face up cards.
-        # noinspection PyUnusedLocal
-        self._face_up_cards = [self._deck.pop() for x in range(5)]
+        self._face_up_cards = [self._deck.pop() for _ in range(5)]
 
         # Initialize edge claims
         self._edge_claims = {edge: None for edge in self._edges}
@@ -59,19 +67,17 @@ class Game:
             self._player_info[player] = PlayerInfo()
             player_info = self._player_info[player]
             # set player's number of cars
-            player_info.num_cars = num_cars
+            player_info.num_cars = self._num_cars
 
             # Give each player a hand of 5 cards from the top of the deck.
-            # noinspection PyUnusedLocal
-            hand = Hand([self._deck.pop() for x in range(self.STARTING_HAND_SIZE)])
+            hand = Hand([self._deck.pop() for _ in range(self.STARTING_HAND_SIZE)])
             player_info.hand = hand
 
             # Give each player 3 destinations.
-            possible_destinations = [self._destinations.pop(), self._destinations.pop(),
-                                     self._destinations.pop()]
-            player.initialize_game(self) # why initialize_game method is used without importing its library?
+            possible_destinations = [self._destinations.pop(), self._destinations.pop(), self._destinations.pop()]
+            player.initialize_game(self)  # Make sure the Player class has this method implemented
             if self.print_debug:
-                print (player, "is selecting initial tickets")
+                print(player, "is selecting initial tickets")
 
             destinations = player.select_starting_destinations(self, possible_destinations)
 
@@ -88,7 +94,7 @@ class Game:
                 score -= destination.value
 
             if self.print_debug:
-                print (player, "selected tickets", destinations)
+                print(player, "selected tickets", destinations)
 
             # set the selected destinations
             player_info.destinations = destinations
@@ -112,7 +118,7 @@ class Game:
 
         # Store a history of all actions taken.
         self._history = []
-
+        
     def _track_double_edges(self):
         """
         Populate dictionary of edges which connect the same city

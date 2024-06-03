@@ -1,143 +1,53 @@
 from .classes import Edge, Colors
+import json
 
+cities = tuple()
+edges = list()
 
-cities = ("Darwin",
-"Perth",
-"Canberra",
-"Melbourne",
-"Hobart",
-"Brisbane",
-"Sydney",
-"Adelaide",
-"Broken Hill",
-"Alice Springs",
-"Katherine",
-"Kalgoorlie",
-"Cairns",
-"Albany",
-"Exmouth",
-"Halls Creek",
-"Longreach",
-"Wiluna",
-"Warburton",
-"Cape York",
-"Emerald",
-"Coober Pedy",
-"Geraldton",
-"Cloncurry",
-"Tennant Creek",
-"Eucla",
-"Lake Disappointment",
-"Thargomindah"
-        )
+def cities_config(config_file):
+    global cities
+    
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+        
+        # Load cities from the config file
+        cities = tuple(config["cities"])
 
+def edge_config(edges_config):
+    global edges
+    with open(edges_config, 'r') as e:
+        config1 = json.load(e)
+        
+        # Convert the edges from dictionaries to Edge objects
+        edges = [Edge(edge["city1"], edge["city2"], edge["cost"], getattr(Colors, edge["color"])) for edge in config1["edges"]]
 
 def create_board():
     """
     Initializes the entirety of the board state.
     """
-    # Create all the edges between cities.
-    edges = [
-Edge("Darwin","Katherine", cost=1, color=Colors.red),
-Edge("Darwin","Broome", cost=6, color=Colors.yellow),
 
-Edge("Perth","Geraldton", cost=2, color=Colors.pink),
-Edge("Perth","Albany", cost=2, color=Colors.green),
-Edge("Perth","Kalgoorlie", cost=3, color=Colors.red),
+    #New York map cities:
+    #cities_config(r"game\config_files\NewYork\NY_cities.json")
 
-Edge("Canberra","Broken Hill", cost=5, color=Colors.red),
-Edge("Canberra","Sydney", cost=1, color=Colors.green),
-Edge("Canberra","Melbourne", cost=2, color=Colors.yellow),
-Edge("Canberra","Hobart", cost=4, color=Colors.black),
+    #Australia map cities
 
-Edge("Melbourne","Hobart", cost=3, color=Colors.green),
-Edge("Melbourne","Adelaide", cost=3, color=Colors.blue),
+    try:
+        cities_config(r"game\config_files\Australia\cities.json")
 
-Edge("Brisbane","Sydney", cost=5, color=Colors.pink),
-Edge("Brisbane","Thargomindah", cost=5, color=Colors.green),
-Edge("Brisbane","Emerald", cost=3, color=Colors.green),
-Edge("Brisbane","Cairns", cost=6, color=Colors.none),
+    except Exception as e:
+        print(f"An error occurred while loading cities, look for formatting or data entry mistakes: {e}")
+    
+    #New York map edges
+    #edge_config(r"game\config_files\NewYork\NY_edges.json")
 
-Edge("Sydney","Canberra", cost=1, color=Colors.none),
+    #Australia map edges
+    try:
+        edge_config(r"game\config_files\Australia\edges.json")
 
-Edge("Adelaide","Melbourne", cost=3, color=Colors.blue),
-Edge("Adelaide","Broken Hill", cost=2, color=Colors.black),
-Edge("Adelaide","Eucla", cost=5, color=Colors.pink),
-Edge("Adelaide","Coober Pedy", cost=4, color=Colors.green),
-
-Edge("Broken Hill","Coober Pedy", cost=3, color=Colors.pink),
-Edge("Broken Hill","Thargomindah", cost=2, color=Colors.green),
-
-Edge("Alice Springs","Coober Pedy", cost=3, color=Colors.yellow),
-Edge("Alice Springs","Thargomindah", cost=5, color=Colors.black),
-Edge("Alice Springs","Warburton", cost=4, color=Colors.pink),
-Edge("Alice Springs","Tennant Creek", cost=2, color=Colors.blue),
-
-Edge("Katherine","Darwin", cost=1, color=Colors.red),
-Edge("Katherine","Halls Creek", cost=4, color=Colors.pink),
-Edge("Katherine","Tennant Creek", cost=3, color=Colors.pink),
-
-Edge("Kalgoorlie","Perth", cost=3, color=Colors.red),
-Edge("Kalgoorlie","Wiluna", cost=3, color=Colors.yellow),
-Edge("Kalgoorlie","Warburton", cost=4, color=Colors.blue),
-Edge("Kalgoorlie","Eucla", cost=4, color=Colors.green),
-
-Edge("Cairns","Cape York", cost=4, color=Colors.yellow),
-Edge("Cairns","Emerald", cost=4, color=Colors.blue),
-Edge("Cairns","Cloncurry", cost=4, color=Colors.green),
-
-Edge("Albany","Eucla", cost=6, color=Colors.yellow),
-
-Edge("Exmouth","Broome", cost=6, color=Colors.blue),
-Edge("Exmouth","Lake Disappointment", cost=5, color=Colors.none),
-Edge("Exmouth","Geraldton", cost=5, color=Colors.red),
-Edge("Exmouth","Wiluna", cost=5, color=Colors.pink),
-
-Edge("Halls Creek","Broome", cost=3, color=Colors.none),
-Edge("Halls Creek","Lake Disappointment", cost=5, color=Colors.black),
-Edge("Halls Creek","Katherine", cost=4, color=Colors.blue),
-
-Edge("Longreach","Emerald", cost=2, color=Colors.black),
-Edge("Longreach","Cloncurry", cost=2, color=Colors.red),
-Edge("Longreach","Thargomindah", cost=3, color=Colors.yellow),
-
-Edge("Wiluna","Geraldton", cost=3, color=Colors.black),
-Edge("Wiluna","Lake Disappointment", cost=2, color=Colors.green),
-
-Edge("Warburton","Kalgoorlie", cost=4, color=Colors.none),
-Edge("Warburton","Tennant Creek", cost=6, color=Colors.yellow),
-Edge("Warburton","Coober Pedy", cost=5, color=Colors.red),
-
-Edge("Cape York","Cairns", cost=4, color=Colors.red),
-Edge("Cape York","Cloncurry", cost=5, color=Colors.none),
-
-Edge("Emerald","Longreach", cost=2, color=Colors.none),
-
-Edge("Coober Pedy","Alice Springs", cost=3, color=Colors.yellow),
-Edge("Coober Pedy","Broken Hill", cost=3, color=Colors.black),
-Edge("Coober Pedy","Eucla", cost=3, color=Colors.red),
-
-Edge("Geraldton","Perth", cost=2, color=Colors.none),
-
-Edge("Cloncurry","Longreach", cost=2, color=Colors.blue),
-Edge("Cloncurry","Tennant Creek", cost=3, color=Colors.black),
-
-Edge("Tennant Creek","Alice Springs", cost=2, color=Colors.blue),
-Edge("Tennant Creek","Cloncurry", cost=3, color=Colors.yellow),
-Edge("Tennant Creek","Katherine", cost=3, color=Colors.red),
-
-Edge("Eucla","Kalgoorlie", cost=4, color=Colors.black),
-Edge("Eucla","Adelaide", cost=5, color=Colors.none),
-Edge("Eucla","Coober Pedy", cost=3, color=Colors.blue),
-
-Edge("Thargomindah","Broken Hill", cost=2, color=Colors.blue),
-Edge("Thargomindah","Longreach", cost=3, color=Colors.pink),
-
-Edge("Broome","Lake Disappointment", cost=4, color=Colors.red),
-    ]
-
+    except Exception as e:
+        print(f"An error occurred while loading edges, look for formatting or data entry mistakes: {e}")
+    
     return create_city_edges(edges), edges
-
 
 def create_city_edges(edges):
     city_edges = {}
@@ -153,7 +63,6 @@ def create_city_edges(edges):
         city_edges[edge.city2] = city_edges[edge.city2] + (edge,)
 
     return city_edges
-
 
 def get_scoring():
     # Create a dictionary for scoring.

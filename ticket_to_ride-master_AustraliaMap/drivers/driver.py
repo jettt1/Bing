@@ -1,9 +1,12 @@
 from time import time, sleep
 from game import Game
 from game.classes import FailureCause
+from game import configRun1
 
 
 class Driver:
+
+    
     def __init__(self, players, use_gui=True, print_debug=True, exception_on_bad_action=True, pause_between_turns=0,
                  maximum_rounds=1000):
         self.players = players
@@ -97,3 +100,5 @@ class Driver:
         :return:
         """
         return self.winner
+    
+    

@@ -1,0 +1,33 @@
+{
+    "destinations": [
+        {"city1": "Cloncurry", "city2": "Darwin", "points": 7},
+        {"city1": "Longreach", "city2": "Perth", "points": 18},
+        {"city1": "Warburton", "city2": "Canberra", "points": 13},
+        {"city1": "Tennant Creek", "city2": "Melbourne", "points": 12},
+        {"city1": "Broome", "city2": "Hobart", "points": 25},
+        {"city1": "Hobart", "city2": "Brisbane", "points": 10},
+        {"city1": "Albany", "city2": "Sydney", "points": 17},
+        {"city1": "Cape York", "city2": "Adelaide", "points": 15},
+        {"city1": "Lake Disappointment", "city2": "Broken Hill", "points": 15},
+        {"city1": "Kalgoorlie", "city2": "Alice Springs", "points": 8},
+        {"city1": "Exmouth", "city2": "Katherine", "points": 13},
+        {"city1": "Halls Creek", "city2": "Kalgoorlie", "points": 7},
+        {"city1": "Adelaide", "city2": "Cairns", "points": 13},
+        {"city1": "Emerald", "city2": "Albany", "points": 19},
+        {"city1": "Darwin", "city2": "Exmouth", "points": 12},
+        {"city1": "Cairns", "city2": "Halls Creek", "points": 14},
+        {"city1": "Sydney", "city2": "Longreach", "points": 10},
+        {"city1": "Eucla", "city2": "Wiluna", "points": 7},
+        {"city1": "Thargomindah", "city2": "Warburton", "points": 9},
+        {"city1": "Geraldton", "city2": "Cape York", "points": 23},
+        {"city1": "Hobart", "city2": "Emerald", "points": 13},
+        {"city1": "Lake Disappointment", "city2": "Coober Pedy", "points": 12},
+        {"city1": "Canberra", "city2": "Geraldton", "points": 19},
+        {"city1": "Broken Hill", "city2": "Cloncurry", "points": 8},
+        {"city1": "Perth", "city2": "Tennant Creek", "points": 13},
+        {"city1": "Brisbane", "city2": "Eucla", "points": 13},
+        {"city1": "Darwin", "city2": "Lake Disappointment", "points": 10},
+        {"city1": "Cape York", "city2": "Thargomindah", "points": 11},
+        {"city1": "Coober Pedy", "city2": "Broome", "points": 15}
+    ]
+}
