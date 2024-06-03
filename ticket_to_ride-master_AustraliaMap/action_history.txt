@@ -1,0 +1,25 @@
+CF Base AI: Action: Connect Cities((Perth, Kalgoorlie, 3, None), (Wild, Wild, Wild))
+Human: Action: Connect Cities((Perth, Albany, 2, None), (Wild, Wild))
+CF Base AI: Action: Draw from Table(2, Wild)
+Human: Action: Draw from Table(0, Wild)
+Human: Action: Draw from Table(3, Wild)
+CF Base AI: Action: Draw from Table(3, Wild)
+CF Base AI: Action: Draw from Table(4, Wild)
+Human: Action: Connect Cities((Geraldton, Perth, 2, None), (Wild, Wild))
+CF Base AI: Action: Connect Cities((Warburton, Kalgoorlie, 4, None), (Wild, Wild, Wild, Wild))
+Human: Action: Connect Cities((Tennant Creek, Alice Springs, 2, None), (Wild, Wild))
+CF Base AI: Action: Draw from Table(4, Wild)
+CF Base AI: Action: Connect Cities((Alice Springs, Tennant Creek, 2, None), (Wild, Wild))
+Human: Action: Draw from Table(3, Wild)
+Human: Action: Draw from Table(3, Wild)
+CF Base AI: Action: Draw from Table(0, Wild)
+CF Base AI: Action: Draw from Deck
+Human: Action: Connect Cities((Sydney, Canberra, 1, None), (Wild))
+CF Base AI: Action: Draw from Deck
+CF Base AI: Action: Draw from Deck
+Human: Action: Draw from Table(1, Wild)
+Human: Action: Draw from Table(2, Wild)
+CF Base AI: Action: Draw from Deck
+CF Base AI: Action: Draw from Deck
+CF Base AI: Action: Draw from Deck
+CF Base AI: Action: Draw from Deck

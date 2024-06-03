@@ -746,6 +746,16 @@ class Game:
 
         if self.print_debug:
             print ("Rounds played: %d" % self._rounds_count)
+        
+        
+        filename = "action_history.txt"
+
+        # Write the values in the self._history list to the file
+        with open(filename, 'w') as file:
+            for action in self._history:
+                file.write(f"{action}\n")
+
+        print(f"Action history has been written to {filename}")
 
     def _check_deck(self):
         """
