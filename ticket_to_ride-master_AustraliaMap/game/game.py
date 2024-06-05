@@ -748,7 +748,13 @@ class Game:
             print ("Rounds played: %d" % self._rounds_count)
         
         
-        filename = "action_history.txt"
+            # Create the folder if it doesn't exist
+        folder_name = "Action recording"
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+        
+        # Define the filename with the folder path
+        filename = os.path.join(folder_name, "action_history.txt")
 
         # Write the values in the self._history list to the file
         with open(filename, 'w') as file:

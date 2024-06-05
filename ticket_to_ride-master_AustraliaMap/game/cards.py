@@ -26,7 +26,7 @@ def shuffle_destinations():
     #Copy and paste this for New York destinations: "game\config_files\NewYork\NY_destinations.json"
     #Copy and paste this for Australia destinations: "game\config_files\Australia\destinations.json"
     try:
-        destinations_config(r"game\config_files\Australia\destinations.json")
+        destinations_config(r"game\config_files\NewYork\NY_destinations.json")
     
     except Exception as e:
        print(f"An error occurred while loading destinations, look for formatting or data entry mistakes: {e}") 

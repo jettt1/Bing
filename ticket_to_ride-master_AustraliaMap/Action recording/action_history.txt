@@ -1,0 +1,15 @@
+CF Base AI: Action: Connect Cities((Chinatown, Greenwich Village, 2, None), (Wild, Wild))
+Human: Action: Connect Cities((Empire State Building, Times Square, 1, None), (Wild))
+CF Base AI: Action: Connect Cities((Chelsea, Gramercy Park, 2, None), (Wild, Wild))
+CF Base AI: Action: Draw from Table(0, Wild)
+CF Base AI: Action: Connect Cities((Gramercy Park, Greenwich Village, 2, None), (Wild, Wild))
+CF Base AI: Action: Draw from Table(2, Wild)
+CF Base AI: Action: Draw from Table(4, Wild)
+CF Base AI: Action: Draw from Table(4, Wild)
+CF Base AI: Action: Draw from Table(0, Wild)
+CF Base AI: Action: Draw from Table(1, Wild)
+CF Base AI: Action: Connect Cities((Brooklyn, Chinatown, 3, None), (Wild, Wild, Wild))
+CF Base AI: Action: Connect Cities((Central Park, Lincoln Center, 2, None), (Wild, Wild))
+Human: Action: Connect Cities((East Village, Gramercy Park, 2, None), (Wild, Wild))
+CF Base AI: Action: Draw from Deck
+CF Base AI: Action: Draw from Deck

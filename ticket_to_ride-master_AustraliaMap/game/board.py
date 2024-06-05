@@ -29,10 +29,11 @@ def create_board():
     #New York map cities:
     #cities_config(r"game\config_files\NewYork\NY_cities.json")
 
-    #Australia map cities
+    #Australia map cities:
+    #cities_config(r"game\config_files\Australia\cities.json")
 
     try:
-        cities_config(r"game\config_files\Australia\cities.json")
+        cities_config(r"game\config_files\NewYork\NY_cities.json")
 
     except Exception as e:
         print(f"An error occurred while loading cities, look for formatting or data entry mistakes: {e}")
@@ -40,9 +41,10 @@ def create_board():
     #New York map edges
     #edge_config(r"game\config_files\NewYork\NY_edges.json")
 
-    #Australia map edges
+    #Australia map edges:
+    #edge_config(r"game\config_files\Australia\edges.json")
     try:
-        edge_config(r"game\config_files\Australia\edges.json")
+        edge_config(r"game\config_files\NewYork\NY_edges.json")
 
     except Exception as e:
         print(f"An error occurred while loading edges, look for formatting or data entry mistakes: {e}")

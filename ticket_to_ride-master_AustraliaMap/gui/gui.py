@@ -25,7 +25,7 @@ class GUI:
 
     #Paste this in Path for New York map: 'game\config_files\NewYork\NY_placeCities.json'
 
-    def __init__(self, config_path=Path(r'game\config_files\Australia\placeCities.json'), x_size=6, y_size=10):
+    def __init__(self, config_path=Path(r'game\config_files\NewYork\NY_placeCities.json'), x_size=6, y_size=10):
 
         print('initializing gui')
         self.needs_reset = False
@@ -36,7 +36,7 @@ class GUI:
         
         # Load map information from the configuration file. Change the string in the below load_map() function from 
         #"Australia" to "NewYork" to change to the New York map
-        img, map_info = self.map_loader.load_map("Australia")
+        img, map_info = self.map_loader.load_map("NewYork")
         if img is None or map_info is None:
             raise ValueError("Failed to load map. Make sure the file path for the image is correct and the string in the load_map() function is correct")
         
