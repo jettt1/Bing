@@ -1,9 +1,14 @@
 from time import time, sleep
 from game import Game
 from game.classes import FailureCause
+from game import configRun1
+import tkinter as tk
+from tkinter import messagebox, Label, Button
 
 
 class Driver:
+
+    
     def __init__(self, players, use_gui=True, print_debug=True, exception_on_bad_action=True, pause_between_turns=0,
                  maximum_rounds=1000):
         self.players = players
@@ -82,6 +87,14 @@ class Driver:
         for player in self.players:
             player.game_ended(game)
         self.winner = game.is_game_over()[1]
+        execution_time = time() - self.game_start_time
+        final_scores = game.get_visible_scores()
+
+
+        # Show game over window
+        if self.use_gui:
+            self.show_game_over_window(execution_time,self.winner, final_scores)
+
         print("Execution Time: %.2f seconds" % (time() - self.game_start_time))
         print("Game Over")
         print("Winner: %s" % self.winner)
@@ -91,9 +104,35 @@ class Driver:
         if self.use_gui:
             self.game_gui.update_game_ended(game)
 
+    def show_game_over_window(self, execution_time, winner, final_scores):
+        root = tk.Tk()
+        # Get screen width and height
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        # Set the window size to the screen size
+        root.geometry(f"{screen_width}x{screen_height}")
+
+        root.title("Game Over")
+
+        root.configure(bg="#f0f0f0")
+
+        Label(root, text="Execution Time: %.2f seconds" % execution_time, font=("Arial", 44), bg="#f0f0f0").pack(pady=10)
+        Label(root, text="Game Over", font=("Arial", 48, "bold"), bg="#f0f0f0").pack(pady=10)
+        Label(root, text="Winner: %s" % winner, font=("Arial", 44), bg="#f0f0f0").pack(pady=10)
+        Label(root, text="Final Scores: %s" % final_scores, font=("Arial", 44), bg="#f0f0f0").pack(pady=10)
+        Label(root, text="To Play again, press Close and select a new ticket to discard", font=("Arial", 44), bg="#f0f0f0").pack(pady=10)
+
+
+        Button(root, text="Close", command=root.destroy, font=("Arial", 64), bg="#f44336", fg="white").pack(pady=20)
+
+        return root
+
     def get_winner(self):
         """
         get winner of the game
         :return:
         """
         return self.winner
+    
+    

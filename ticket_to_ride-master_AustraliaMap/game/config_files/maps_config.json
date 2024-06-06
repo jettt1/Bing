@@ -1,0 +1,18 @@
+{
+    "maps": {
+        "Australia": {
+            "path": "gui/ausmapV3-31-05-24.png",
+            "x_size": 10,
+            "y_size": 7.1,
+            "xlim": [0, 1000],
+            "ylim": [710, 0]
+        },
+        "NewYork": {
+            "path": "gui/New_York_Map-2-old.jpg",
+            "x_size": 14.5,
+            "y_size": 20,
+            "xlim": [0, 1450],
+            "ylim": [2000, 0]
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "cities": [
+        "Darwin", "Perth", "Canberra", "Melbourne", "Hobart",
+        "Brisbane", "Sydney", "Adelaide", "Broken Hill", "Alice Springs",
+        "Katherine", "Kalgoorlie", "Cairns", "Albany", "Exmouth",
+        "Halls Creek", "Longreach", "Wiluna", "Warburton", "Cape York",
+        "Emerald", "Coober Pedy", "Geraldton", "Cloncurry", "Tennant Creek",
+        "Eucla", "Lake Disappointment", "Thargomindah"
+    ]
+}

@@ -1,3 +1,10 @@
+<<<<<<< Updated upstream
+=======
+import tkinter as tk
+from tkinter import messagebox
+import copy
+
+>>>>>>> Stashed changes
 from game import Player, Colors, DrawDeckAction, DrawFaceUpAction, DrawDestinationAction, Game, Hand, FailureCause
 
 
@@ -10,11 +17,31 @@ class ConsolePlayer(Player):
         Player.__init__(self, name)
         self._drew_card_from_deck = False
         self.player_info = None
+<<<<<<< Updated upstream
         #self.gui = gui
 
     def take_turn(self, game):
         
         
+=======
+        self.gui = None
+
+    def __deepcopy__(self, memo):
+        # Create a shallow copy of the object
+        new_copy = copy.copy(self)
+        # Manually deepcopy all attributes except those related to tkinter GUI
+        for attr, value in self.__dict__.items():
+            if attr == 'gui':
+                setattr(new_copy, attr, value)
+            else:
+                setattr(new_copy, attr, copy.deepcopy(value, memo))
+        return new_copy
+
+    def set_gui(self, gui):
+        self.gui = gui
+
+    def take_turn(self, game):
+>>>>>>> Stashed changes
 
         self._drew_card_from_deck = False
         action = None
@@ -22,6 +49,8 @@ class ConsolePlayer(Player):
         self.player_info = game.get_player_info(self)
 
         print ("Scores: %s" % game.get_visible_scores())
+        print("BELOW IS THE PLAYER's INFORMATION")
+        print(self.get_player_info())
         print ("Status: %s" % self.player_info)
 
         if game.gui:
@@ -39,7 +68,12 @@ class ConsolePlayer(Player):
                 print ("1: Draw Tickets")
                 print ("2: Connect Cities")
 
+<<<<<<< Updated upstream
                 action_type = ConsolePlayer.get_selection()
+=======
+                action_type = self.get_choice(["Draw Card", "Draw Tickets", "Connect Cities"])
+                print(action_type)
+>>>>>>> Stashed changes
             else:
                 # If there is only one action left, just force the player to draw.
                 action_type = 0
@@ -51,16 +85,25 @@ class ConsolePlayer(Player):
                 print ("")
                 print ("Choose draw:")
                 print ("0: Draw from Deck")
-
+                drawcardL = ["Draw from Deck"]
+                mapping = {0: 0}
+                index = 1
                 for i in range(len(face_up_cards)):
                     # Make sure that the user does not have the option to draw wilds.
                     if face_up_cards[i] != Colors.none or game.get_remaining_actions(self) != 1:
+                        drawcardL.append(Colors.str_card(face_up_cards[i]))
+                        mapping[index] = i + 1
                         print ("%d: %s" % (i + 1, Colors.str_card(face_up_cards[i])))
+                        index += 1
 
                 if game.get_remaining_actions(self) != 1:
+                    drawcardL.append("Cancel")
+                    mapping[index] = len(face_up_cards) + 1
                     print ("%d: Cancel" % (len(face_up_cards) + 1))
 
-                selection = ConsolePlayer.get_selection()
+
+                selection = self.get_choice(drawcardL, mapping)
+                print(selection)
 
                 if selection == 0:
                     action = DrawDeckAction()
@@ -68,9 +111,13 @@ class ConsolePlayer(Player):
                 elif 0 < selection <= len(face_up_cards):
                     if face_up_cards[selection - 1] != Colors.none or game.get_remaining_actions(self) != 1:
                         action = DrawFaceUpAction(selection - 1, face_up_cards[selection - 1])
+
+
+
             elif action_type == 1:
                 # Draw a destination card
                 action = DrawDestinationAction()
+
             elif action_type == 2:
                 # Connect Edges
                 edges_seen = set()
@@ -83,7 +130,6 @@ class ConsolePlayer(Player):
                 edges_seen = list(edges_seen)
                 edges_seen.sort(key=lambda edge: (edge.color, edge.cost))
                 if game.gui:
-                    #print 'attempting to display edges'
                     game.gui.show_destinations(self.player_info.destinations)
                     game.gui.show_edges(edges_seen)
 
@@ -91,25 +137,34 @@ class ConsolePlayer(Player):
                 # Show options for selection to user.
                 print ("")
                 print ("Choose a route to claim:")
+                claimrouteL = []
+
                 for i in range(len(edges_seen)):
+                    temp = [(i, str(edges_seen[i]))]
+                    claimrouteL.append(temp)
                     print ("%d: %s" % (i, str(edges_seen[i])))
 
                 print ("%d: Cancel" % (len(edges_seen)))
+                claimrouteL.append("Cancel")
 
-                selection = ConsolePlayer.get_selection()
+                selection = self.get_choice(claimrouteL)
 
                 if 0 <= selection < len(edges_seen):
                     # Ask how the user would like to claim the edge.
                     possible_actions = Game.all_connection_actions(edges_seen[selection], self.player_info.hand.cards,self.player_info.num_cars)
+                    routeCardL = []
 
                     print ("")
                     print ("Choose which cards to use:")
                     for i in range(len(possible_actions)):
                         print ("%d: %s" % (i, Hand.cards_str(possible_actions[i].cards)))
+                        temp = [(i, Hand.cards_str(possible_actions[i].cards))]
+                        routeCardL.append(temp)
 
+                    routeCardL.append("Cancel")
                     print ("%d: Cancel" % (len(possible_actions)))
 
-                    selection = ConsolePlayer.get_selection()
+                    selection = self.get_choice(routeCardL)
 
                     if 0 <= selection < len(possible_actions):
                         action = possible_actions[selection]
@@ -140,6 +195,8 @@ class ConsolePlayer(Player):
             # old one.
             for card in new_cards.elements():
                 print ("Drew Card: %s" % Colors.str_card(card))
+                drawn_card_message = "Drew Card: %s" % Colors.str_card(card)
+                messagebox.showinfo("Card Drawn", drawn_card_message)
                 print ("")
 
     def select_destinations(self, game, destinations):
@@ -147,12 +204,20 @@ class ConsolePlayer(Player):
         selection = -1
 
         while not (0 <= selection <= len(destinations)) and len(destinations) > 1:
+            startdestL = ["Keep all tickets"]
+
             print ("Choose a ticket to discard:")
             print ("0: Keep all tickets")
             for i in range(len(destinations)):
+                temp = [i + 1, str(destinations[i])]
+                startdestL.append(temp[1])
                 print ("%d: %s" % (i + 1, str(destinations[i])))
 
+<<<<<<< Updated upstream
             selection = ConsolePlayer.get_selection()
+=======
+            selection = self.get_choice(startdestL)
+>>>>>>> Stashed changes
 
             if selection != 0:
                 del destinations[selection - 1]
@@ -167,14 +232,26 @@ class ConsolePlayer(Player):
     def select_starting_destinations(self, game, destinations):
         # Choice will indicate which destination the player chose to remove.
         selection = -1
+<<<<<<< Updated upstream
+=======
+        startdestL = ["Keep all tickets"]
+>>>>>>> Stashed changes
 
         while not (0 <= selection <= len(destinations)):
             print ("Choose a ticket to discard:")
             print ("0: Keep all tickets")
             for i in range(len(destinations)):
+<<<<<<< Updated upstream
                 print ("%d: %s" % (i + 1, str(destinations[i])))
 
             selection = ConsolePlayer.get_selection()
+=======
+                temp = [i + 1, str(destinations[i])]
+                startdestL.append(temp[1])
+                print("%d: %s" % (i + 1, str(destinations[i])))
+
+            selection = self.get_initial(startdestL)
+>>>>>>> Stashed changes
 
         if selection != 0:
             del destinations[selection - 1]
@@ -183,7 +260,32 @@ class ConsolePlayer(Player):
 
         return destinations
 
+<<<<<<< Updated upstream
     @staticmethod
+=======
+    def _dummy_callback(self):
+        # Dummy callback function for GUI actions
+        print("dummy called")
+        pass
+
+    def get_initial(self, options):
+        self.choice = None
+        self.gui.starting_destination(options, self.set_choice)
+        while self.choice is None:
+            self.gui.root.update()  # Wait for user to make a selection
+        return int(self.choice)
+
+    def get_choice(self, options, mapping=None):
+        self.choice = None
+        self.gui.selection_screen(self.player_info, options, self.set_choice, mapping)
+        while self.choice is None:
+            self.gui.root.update()  # Wait for user to make a selection
+        return int(self.choice)
+
+    def set_choice(self, choice):
+        self.choice = choice
+
+>>>>>>> Stashed changes
     def get_selection():
         """
         Get a user's selection for the next move.
@@ -196,3 +298,9 @@ class ConsolePlayer(Player):
             return -1
         else:
             return int(selection)
+<<<<<<< Updated upstream
+=======
+
+    def get_player_info(self):
+        return self.player_info
+>>>>>>> Stashed changes

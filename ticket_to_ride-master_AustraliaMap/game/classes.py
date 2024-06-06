@@ -1,24 +1,46 @@
 from collections import namedtuple, Counter
+import json
+
 
 
 class Colors:
     """
     Used as an enum to hold possible color values.
     """
+    colors_list = list()
+
+    def color_config(c_config):
+        global colors_list
+        with open(c_config, 'r') as c:
+            config = json.load(c)
+            
+            # Load destinations from the config file and create Destination objects
+            colors_list = list(config["colors"])
+    # colors_list = list(color_config.keys())
+    # globals().update({color.lower(): index for index, color in enumerate(colors_list)})
+    # none = len(colors_list)
 
     def __init__(self):
-        pass
-
+         pass
+    
+    #edit this depending on cards colours. Replace the names of the colour variables accordingly and add/reduce the range as needed
+    #note that the variable "none" represents the wild card.  All colours must also be found in the config file
     red, blue, yellow, green, pink, black, none = range(7)
-    colors_list = ['Red', 'Blue', 'Yellow', 'Green', 'Pink', 'Black']
+
+    try:
+        #here is where the colours config file is read.
+        color_config(r"game\config_files\colours.json")
+    except Exception as e:
+        print(f"An error occurred while loading colours, ensure colours in config match whats in classes.py: {e}")
+ 
 
     @staticmethod
     def str(color):
-        return Colors.colors_list[color] if len(Colors.colors_list) > color else 'None'
+        return colors_list[color] if len(colors_list) > color else 'None'
 
     @staticmethod
     def str_card(color):
-        return Colors.colors_list[color] if len(Colors.colors_list) > color else 'Wild'
+        return colors_list[color] if len(colors_list) > color else 'Wild'
 
 
 class FailureCause:

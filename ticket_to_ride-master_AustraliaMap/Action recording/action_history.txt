@@ -1,0 +1,14 @@
+Human: Action: Draw from Table(3, Black)
+Human: Action: Draw from Table(2, Black)
+CF Base AI: Action: Connect Cities((Perth, Kalgoorlie, 3, None), (Blue, Blue, Wild))
+Human: Action: Draw from Table(4, Red)
+Human: Action: Draw from Table(4, Green)
+CF Base AI: Action: Connect Cities((Sydney, Canberra, 1, None), (Pink))
+Human: Action: Draw from Table(4, Black)
+Human: Action: Draw from Table(0, Pink)
+CF Base AI: Action: Draw from Deck
+CF Base AI: Action: Draw from Deck
+Human: Action: Draw from Table(4, Blue)
+Human: Action: Draw from Table(3, Green)
+CF Base AI: Action: Connect Cities((Perth, Geraldton, 2, None), (Yellow, Yellow))
+Human: Action: Connect Cities((Katherine, Tennant Creek, 3, Red), (Red, Red, Red))
