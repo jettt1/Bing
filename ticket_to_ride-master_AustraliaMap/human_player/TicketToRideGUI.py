@@ -1,6 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
-from gui.gui import GUI
 
 class AppGUI:
     def __init__(self, root):
@@ -113,6 +111,11 @@ class AppGUI:
             button.pack(pady=5, anchor="e", fill="x")  # Adjust the anchor and fill here
 
     def format_hand(self, hand):
+        """
+        
+        Returns the player's cards formatted as a string
+
+        """
         hand_str = hand.cards_str(hand.cards)
         hand_list = hand_str.strip("()").split(", ")
 

@@ -10,7 +10,6 @@ class Colors:
     colors_list = list()
 
     def color_config(c_config):
-        global colors_list
         with open(c_config, 'r') as c:
             config = json.load(c)
             
@@ -19,6 +18,7 @@ class Colors:
     # colors_list = list(color_config.keys())
     # globals().update({color.lower(): index for index, color in enumerate(colors_list)})
     # none = len(colors_list)
+        return colors_list
 
     def __init__(self):
          pass
@@ -29,18 +29,18 @@ class Colors:
 
     try:
         #here is where the colours config file is read.
-        color_config(r"game\config_files\colours.json")
+        colors_list = color_config(r"game\config_files\colours.json")
     except Exception as e:
         print(f"An error occurred while loading colours, ensure colours in config match whats in classes.py: {e}")
  
 
     @staticmethod
     def str(color):
-        return colors_list[color] if len(colors_list) > color else 'None'
+        return Colors.colors_list[color] if len(Colors.colors_list) > color else 'None'
 
     @staticmethod
     def str_card(color):
-        return colors_list[color] if len(colors_list) > color else 'Wild'
+        return Colors.colors_list[color] if len(Colors.colors_list) > color else 'Wild'
 
 
 class FailureCause:

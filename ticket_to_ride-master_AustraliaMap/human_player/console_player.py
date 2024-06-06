@@ -1,12 +1,7 @@
-<<<<<<< Updated upstream
-=======
-import tkinter as tk
 from tkinter import messagebox
 import copy
 
->>>>>>> Stashed changes
 from game import Player, Colors, DrawDeckAction, DrawFaceUpAction, DrawDestinationAction, Game, Hand, FailureCause
-
 
 class ConsolePlayer(Player):
     """
@@ -17,16 +12,23 @@ class ConsolePlayer(Player):
         Player.__init__(self, name)
         self._drew_card_from_deck = False
         self.player_info = None
-<<<<<<< Updated upstream
-        #self.gui = gui
-
-    def take_turn(self, game):
-        
-        
-=======
         self.gui = None
 
+    #Getting deepcopy without tkinter incompatibilities
     def __deepcopy__(self, memo):
+        """
+
+        Parameters
+        ----------
+        memo : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        new_copy : TYPE
+            DESCRIPTION.
+
+        """
         # Create a shallow copy of the object
         new_copy = copy.copy(self)
         # Manually deepcopy all attributes except those related to tkinter GUI
@@ -37,12 +39,24 @@ class ConsolePlayer(Player):
                 setattr(new_copy, attr, copy.deepcopy(value, memo))
         return new_copy
 
+    #Setting the gui instance
     def set_gui(self, gui):
         self.gui = gui
 
     def take_turn(self, game):
->>>>>>> Stashed changes
+        """
 
+        Parameters
+        ----------
+        game : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        action : TYPE
+            DESCRIPTION.
+
+        """
         self._drew_card_from_deck = False
         action = None
         all_actions = game.get_available_actions(self)
@@ -68,12 +82,8 @@ class ConsolePlayer(Player):
                 print ("1: Draw Tickets")
                 print ("2: Connect Cities")
 
-<<<<<<< Updated upstream
-                action_type = ConsolePlayer.get_selection()
-=======
                 action_type = self.get_choice(["Draw Card", "Draw Tickets", "Connect Cities"])
                 print(action_type)
->>>>>>> Stashed changes
             else:
                 # If there is only one action left, just force the player to draw.
                 action_type = 0
@@ -85,6 +95,7 @@ class ConsolePlayer(Player):
                 print ("")
                 print ("Choose draw:")
                 print ("0: Draw from Deck")
+                
                 drawcardL = ["Draw from Deck"]
                 mapping = {0: 0}
                 index = 1
@@ -100,7 +111,6 @@ class ConsolePlayer(Player):
                     drawcardL.append("Cancel")
                     mapping[index] = len(face_up_cards) + 1
                     print ("%d: Cancel" % (len(face_up_cards) + 1))
-
 
                 selection = self.get_choice(drawcardL, mapping)
                 print(selection)
@@ -168,14 +178,14 @@ class ConsolePlayer(Player):
 
                     if 0 <= selection < len(possible_actions):
                         action = possible_actions[selection]
-            
-        print ("")
+
         return action
 
     def game_ended(self, game):
         pass
 
     def on_action_complete(self, game, result):
+
         if not result[0]:
             # Print action failure, which should never happen.
             print ("Action failed: %s" % FailureCause.str(result[1]))
@@ -184,7 +194,6 @@ class ConsolePlayer(Player):
             # If the player just drew a card from the deck, then figure out what the new card is and output the result.
             if game.gui:
                 game.gui.update(game)
-
 
             old_cards = self.player_info.hand.cards
             new_cards = game.get_player_info(self).hand.cards
@@ -200,6 +209,21 @@ class ConsolePlayer(Player):
                 print ("")
 
     def select_destinations(self, game, destinations):
+        """
+
+        Parameters
+        ----------
+        game : TYPE
+            DESCRIPTION.
+        destinations : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        destinations : TYPE
+            DESCRIPTION.
+
+        """
         # Choice will indicate which destination the player chose to remove.
         selection = -1
 
@@ -213,11 +237,7 @@ class ConsolePlayer(Player):
                 startdestL.append(temp[1])
                 print ("%d: %s" % (i + 1, str(destinations[i])))
 
-<<<<<<< Updated upstream
-            selection = ConsolePlayer.get_selection()
-=======
             selection = self.get_choice(startdestL)
->>>>>>> Stashed changes
 
             if selection != 0:
                 del destinations[selection - 1]
@@ -230,45 +250,36 @@ class ConsolePlayer(Player):
         return destinations
 
     def select_starting_destinations(self, game, destinations):
-        # Choice will indicate which destination the player chose to remove.
+        """
+        
+        Returns the destination tickets selected by the user
+        
+        """
         selection = -1
-<<<<<<< Updated upstream
-=======
         startdestL = ["Keep all tickets"]
->>>>>>> Stashed changes
 
         while not (0 <= selection <= len(destinations)):
-            print ("Choose a ticket to discard:")
-            print ("0: Keep all tickets")
+            print("Choose a ticket to discard:")
+            print("0: Keep all tickets")
             for i in range(len(destinations)):
-<<<<<<< Updated upstream
-                print ("%d: %s" % (i + 1, str(destinations[i])))
-
-            selection = ConsolePlayer.get_selection()
-=======
                 temp = [i + 1, str(destinations[i])]
                 startdestL.append(temp[1])
                 print("%d: %s" % (i + 1, str(destinations[i])))
 
             selection = self.get_initial(startdestL)
->>>>>>> Stashed changes
 
         if selection != 0:
             del destinations[selection - 1]
 
-        print ("")
-
         return destinations
 
-<<<<<<< Updated upstream
-    @staticmethod
-=======
-    def _dummy_callback(self):
-        # Dummy callback function for GUI actions
-        print("dummy called")
-        pass
 
     def get_initial(self, options):
+        """
+
+        Returns the selected choice by the user
+
+        """
         self.choice = None
         self.gui.starting_destination(options, self.set_choice)
         while self.choice is None:
@@ -276,6 +287,11 @@ class ConsolePlayer(Player):
         return int(self.choice)
 
     def get_choice(self, options, mapping=None):
+        """
+
+        Returns the selected choice by the user
+
+        """
         self.choice = None
         self.gui.selection_screen(self.player_info, options, self.set_choice, mapping)
         while self.choice is None:
@@ -283,24 +299,17 @@ class ConsolePlayer(Player):
         return int(self.choice)
 
     def set_choice(self, choice):
+        """
+
+        Sets the choice received from the user
+
+        """
         self.choice = choice
 
->>>>>>> Stashed changes
-    def get_selection():
-        """
-        Get a user's selection for the next move.
-
-        :return: An integer indicating what the user selected, or -1 if the user made an invalid selection.
-        """
-        selection = input("Selection: ")
-
-        if not selection.isdigit():
-            return -1
-        else:
-            return int(selection)
-<<<<<<< Updated upstream
-=======
-
     def get_player_info(self):
+        """
+        
+        Returns the player's information
+        
+        """
         return self.player_info
->>>>>>> Stashed changes

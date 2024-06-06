@@ -1,7 +1,7 @@
 {
     "maps": {
         "Australia": {
-            "path": "gui/ausmapV3-31-05-24.png",
+            "path": "gui/Australia_Mapv3.png",
             "x_size": 10,
             "y_size": 7.1,
             "xlim": [0, 1000],

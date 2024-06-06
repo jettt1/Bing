@@ -4,23 +4,24 @@ import json
 cities = tuple()
 edges = list()
 
+#Not implemented
 def cities_config(config_file):
-    global cities
-
     with open(config_file, 'r') as f:
         config = json.load(f)
 
         # Load cities from the config file
         cities = tuple(config["cities"])
+    return cities
 
+#Not implemented
 def edge_config(edges_config):
-    global edges
     with open(edges_config, 'r') as e:
         config1 = json.load(e)
 
         # Convert the edges from dictionaries to Edge objects
         edges = [Edge(edge["city1"], edge["city2"], edge["cost"], getattr(Colors, edge["color"])) for edge in config1["edges"]]
-        print(edges)
+
+    return edges
 
 def create_board():
     """
